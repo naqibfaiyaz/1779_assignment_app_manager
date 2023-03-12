@@ -9,8 +9,7 @@ from apps import db, backendUrl
 from flask import render_template, request, json
 import requests
 from jinja2 import TemplateNotFound
-from apps import logger, nodeManagerUrl
-from apps.services.home.routes import get_segment
+from apps import logger, nodeManagerUrl, FE_url
 from apps.services.nodePartitions.models import nodePartitions, memcacheNodes
 from apps.services.nodePartitions.routes import reassignPartitions
 
@@ -21,7 +20,8 @@ curr_mode='Manual'
 @blueprint.route('/index')
 # @login_required
 def index():
-    return render_template('home/index.html', segment='index')
+    print('hello')
+    return render_template('home/index.html', segment='index', currentCacheDisplay=getCurrentCache())
 
 
 @blueprint.route('/<template>')
@@ -32,7 +32,6 @@ def route_template(template):
         if not template.endswith('.html'):
             template += '.html'
 
-        
     except TemplateNotFound:
         return render_template('home/page-404.html'), 404
 
@@ -126,3 +125,6 @@ def autoModeMemcache1():
 #     curr_mode = requests.post(backendUrl + '/configure_cache',
 #                              params={'mode': request.form.get('mode')}).json()['mode']
 #     return render_template('home/index.html', segment='index',curr_mode=curr_mode)
+def getCurrentCache():
+    return requests.post(FE_url + '/policyManager/getCurrentConfig').json()
+

@@ -9,6 +9,7 @@ from flask import render_template, request, json, redirect
 from jinja2 import TemplateNotFound
 from apps.services.nodePartitions.models import nodePartitions, memcacheNodes
 from apps.services.memcacheManager.routes import changePolicyInDB
+from apps.services.appManager.routes import getCurrentCache
 import boto3
 from apps import AWS_ACCESS_KEY, AWS_SECRET_KEY, db, app_manager_fe
 
@@ -74,7 +75,7 @@ def RedirectIndex():
 @blueprint.route('/index')
 # @login_required
 def index():
-    return render_template('home/index.html', segment='index') # required for app-manager
+    return render_template('home/index.html', segment='index', currentCacheDisplay=getCurrentCache()) # required for app-manager
 
 @blueprint.route('/<template>')
 # @login_required
