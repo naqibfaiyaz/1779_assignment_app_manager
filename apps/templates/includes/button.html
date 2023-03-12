@@ -33,20 +33,18 @@
                                             <button type="submit" name="show_stats" title="Show Statistics"
                                                 class="btn btn-primary">Show charts</button>
                                         </a>
-                                    </div>
-                                    <div class="card-block">
                                         <a href='/photoUpload/knownKeys.html'>
                                             <button type="submit" name="delete_all"
                                                 title="clear data of RDS, S3 and memcache" class="btn btn-danger">Delete
                                                 All</button>
                                         </a>
-                                    </div>
-                                    <div class="card-block">
-                                        <form action='/appManager/clear_cache'>
-                                            <button type="submit" name="clear_memcache"
-                                                title="clear data of memcache nodes" class="btn btn-warning">Clear
-                                                Cache</button>
-                                        </form>
+                                        <a>
+                                            <form action='/appManager/clear_cache'>
+                                                <button type="submit" name="clear_memcache"
+                                                    title="clear data of memcache nodes" class="btn btn-warning">Clear
+                                                    Cache</button>
+                                            </form>
+                                        </a>
                                         {%if cache_msg%}
                                         </br>
                                         <p>Cache Status: {{cache_msg}}</p>
@@ -65,14 +63,15 @@
                                     <div class="card-header">
                                         <h5>Manual Mode</h5>
                                     </div>
+                                    {%if currentCacheDisplay.mode=='auto'%}Current Mode is Auto, you cannot increase/decrease node{% endif %}
                                     <div class="card-block">
                                         <form action='/appManager/decrease' method="POST">
                                             <button type="submit" name="decrease" title="Decrease number of nodes by 1"
-                                                class="btn btn-square btn-secondary">Decrease</button>
+                                                class="btn btn-square btn-secondary" {%if currentCacheDisplay.mode=='auto'%}disabled{% endif %}>Decrease</button>
                                         </form>
                                         <form action='/appManager/increase' method="POST">
                                             <button type="submit" title="Increase number of nodes by 1" name="increase"
-                                                class="btn btn-square btn-success">Increase</button>
+                                                class="btn btn-square btn-success" {%if currentCacheDisplay.mode=='auto'%}disabled{% endif %}>Increase</button>
                                         </form>
 
                                     </div>

@@ -47,7 +47,7 @@ def route_template(template):
 @blueprint.route('/clear_cache')
 def clear_cache():
     response = requests.post(backendUrl + '/clearAll').json()['msg']
-    return render_template('home/index.html', segment='index', cache_msg=response)
+    return render_template('home/index.html', segment='index', cache_msg=response, currentCacheDisplay=getCurrentCache())
 
 @blueprint.route('/increase', methods=['POST', 'PUT'])
 def increase():
@@ -70,7 +70,7 @@ def increase():
         
 
 
-    return render_template('home/index.html', segment='index',msg=msg)
+    return render_template('home/index.html', segment='index',msg=msg, currentCacheDisplay=getCurrentCache())
 
 
 @blueprint.route('/decrease', methods=['POST', 'PUT'])
@@ -94,7 +94,7 @@ def decrease():
         #msg=nodes
         # curr_node_st/
 
-    return render_template('home/index.html', segment='index',msg=msg)
+    return render_template('home/index.html', segment='index',msg=msg, currentCacheDisplay=getCurrentCache())
 
 
 @blueprint.route('/config', methods=['POST', 'PUT'])
@@ -117,7 +117,7 @@ def autoModeMemcache1():
                 'shrinkRatio': shrinkRatio or None,
         })
     curr_config=json.loads(response.content)
-    return render_template('home/index.html', segment='index',curr_config=json.dumps(curr_config))
+    return render_template('home/index.html', segment='index',curr_config=json.dumps(curr_config), currentCacheDisplay=getCurrentCache())
     
 
 # @blueprint.route('/mode' , methods=['POST', 'PUT'])
